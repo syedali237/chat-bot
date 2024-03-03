@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // Initialize OpenAI instance with your API key
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
-let conversationHistory = [];
+let conversationHistory = [{role : 'assistant' , content: 'Ask me your doubts related to health & fitness..'}];
 
 // Function to generate text based on user input
 async function generateText(userInput) {
@@ -41,7 +41,7 @@ async function generateText(userInput) {
 }
 
 app.get('/', (req, res) => {
-    res.render('index', { generatedText: null });
+    res.render('main', { generatedText: null });
 });
 
 // Endpoint to handle incoming messages
@@ -54,7 +54,7 @@ app.post('/messages', async (req, res) => {
     const generatedText = await generateText(req.body.content);
 
     // Return the generated text as the response
-    res.render('index', { generatedText });
+    res.render('main', { generatedText });
   } catch (error) {
     console.error('Error handling message:', error);
     res.status(500).json({ error: 'An error occurred while handling the message.' });
